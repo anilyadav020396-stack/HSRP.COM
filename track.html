@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Track Your Order — HSRP Plate India</title>
+  <link rel="stylesheet" href="track.css">
+</head>
+<body>
+  <header>
+    <h1>HSRP Plate India</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="pay.html">Payment</a>
+      <a href="track.html">Track Order</a>
+    </nav>
+  </header>
+
+  <div class="track-wrapper">
+    <h2>Track Your Order</h2>
+    <p>Enter your Order ID to check the current status of your HSRP plate order.</p>
+
+    <form id="trackForm" autocomplete="off">
+      <input id="orderId" type="text" placeholder="Enter Order ID (e.g. ORD12345)" required />
+      <button id="trackBtn" type="submit">Track</button>
+    </form>
+
+    <div id="result" class="result" style="display:none"></div>
+
+    <div class="info">
+      <strong>Important:</strong>
+      <ol>
+        <li>You can track your order after <strong>72 hours</strong> of placing your order.</li>
+        <li>In case you haven't received an order id, delivery would be done in <strong>14 days</strong>.</li>
+        <li>Full refund will be done if delivery not done in <strong>14 days</strong> from date of placing your order.</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('trackForm');
+    const orderInput = document.getElementById('orderId');
+    const result = document.getElementById('result');
+    const trackBtn = document.getElementById('trackBtn');
+
+    function showMessage(html, isError){
+      result.style.display = 'block';
+      result.className = 'result';
+      if (isError) result.classList.add('error');
+      result.innerHTML = html;
+    }
+
+    function friendlyFallback(orderId){
+      if (!orderId) {
+        showMessage('<strong>No Order ID provided.</strong> If you did not receive an Order ID, delivery will be completed within 14 days from placing the order. If not delivered within 14 days, a full refund will be processed.');
+        return;
+      }
+      const looksLikeId = /[A-Za-z0-9]{4,}/.test(orderId);
+      if (looksLikeId) {
+        showMessage('<strong>Record not found on server.</strong><br>Either the order was placed less than 72 hours ago, or the server endpoint is not configured. Please check again after 72 hours of placing your order. If you did not receive an order id, delivery will be done in 14 days and full refund will be done if not delivered within 14 days.');
+      } else {
+        showMessage('<strong>Invalid Order ID format.</strong> Please re-check the Order ID you received.');
+      }
+    }
+
+    async function tryApiLookup(orderId){
+      const endpoints = ['/api/track?order_id=', '/track?order_id='];
+      let lastError = null;
+      for (const base of endpoints){
+        const url = base + encodeURIComponent(orderId);
+        try{
+          const controller = new AbortController();
+          const timeout = setTimeout(()=>controller.abort(), 6000);
+          const res = await fetch(url, {signal: controller.signal});
+          clearTimeout(timeout);
+          if (!res.ok) {
+            lastError = 'HTTP ' + res.status;
+            continue;
+          }
+          const json = await res.json();
+          if (json && json.order_id){
+            const placed = json.placed_at ? ('<div><strong>Placed at:</strong> '+ new Date(json.placed_at).toLocaleString() + '</div>') : '';
+            const est = json.estimated_delivery ? ('<div><strong>Estimated delivery:</strong> '+ json.estimated_delivery + '</div>') : '';
+            const notes = json.notes ? ('<div><strong>Notes:</strong> '+ (json.notes) + '</div>') : '';
+            showMessage('<div><strong>Order ID:</strong> ' + (json.order_id) + '</div>' +
+                        '<div><strong>Status:</strong> ' + (json.status || 'Unknown') + '</div>' + placed + est + notes);
+            return true;
+          } else {
+            lastError = 'Malformed JSON';
+            continue;
+          }
+        } catch (e){
+          lastError = e && e.name ? e.name : String(e);
+        }
+      }
+      console.warn('Track API lookup failed:', lastError);
+      return false;
+    }
+
+    form.addEventListener('submit', async function(ev){
+      ev.preventDefault();
+      const orderId = orderInput.value.trim();
+      trackBtn.disabled = true;
+      trackBtn.textContent = 'Checking...';
+      result.style.display = 'none';
+      const apiOk = await tryApiLookup(orderId);
+      if (!apiOk) friendlyFallback(orderId);
+      trackBtn.disabled = false;
+      trackBtn.textContent = 'Track';
+    });
+  </script>
+</body>
+</html>

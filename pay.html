@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Details - MY-HSRP-BOOKS</title>
+  <link rel="stylesheet" href="pay.css" />
+
+
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>MY-HSRP-BOOKS</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="regi.html">Track your Order</a>
+      <a href="contact.html">Contact us</a>
+
+    </nav>
+  </header>
+
+  <!-- Payment Section -->
+  <section class="payment-wrapper">
+    <h2>Payment Details</h2>
+    <div class="qr-box">
+      <img src="qrs1.jpg" alt="QR Code" />
+      <p class="upi-id">UPI ID: <strong></strong><br></p>
+      <p class="scan-note">Scan to pay with any UPI app</p>
+    </div>
+
+    <p class="instructions">Scan above QR code using any UPI app like Paytm, PhonePe</p>
+
+    <form id="proofForm">
+      <input type="file" accept="image/*,application/pdf" required />
+      <button type="submit">Upload payment proof</button>
+    </form>
+
+  </section>
+  <script>
+
+    fetch('qrs.json')
+      .then(response => response.json())
+      .then(data => {
+        const random = data[Math.floor(Math.random() * data.length)];
+        document.querySelector('.qr-box img').src = random.image;
+        document.querySelector('.upi-id').innerHTML = `UPI ID: <strong>${random.upi}</strong><br>Amount: ₹${random.amount}`;
+      })
+      .catch(error => console.error('Error loading QR data:', error));
+    document.getElementById("proofForm").addEventListener("submit", function (e) {
+      e.preventDefault(); // stop actual form submission
+      // optionally show a loader or confirmation
+      window.location.href = "thankyou.html"; // redirect after "upload"
+    });
+  </script>
+
+
+</body>
+
+</html>

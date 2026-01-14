@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MY-HSRP-BOOKS</title>
+  <link rel="stylesheet" href="regi.css" />
+  <style>
+    .hindi {
+      display: block;
+      font-size: 0.9em;
+      color: #444;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>MY-HSRP-BOOKS</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="regi.html">Track your Order</a>
+      <a href="contact.html">Contact us</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <aside class="steps">
+      <p>Step 1 - Booking Details <span class="hindi">चरण 1 - बुकिंग विवरण</span></p>
+      <p>Step 2 - User Details <span class="hindi">चरण 2 - उपयोगकर्ता विवरण</span></p>
+      <p>Step 3 - Payment Details <span class="hindi">चरण 3 - भुगतान विवरण</span></p>
+    </aside>
+
+    <section class="form-area">
+      <h2>Booking Details <span class="hindi">बुकिंग विवरण</span></h2>
+      <h3>Wheeler Information <span class="hindi">वाहन की जानकारी</span></h3>
+
+      <form id="regiForm">
+        <div class="form-group">
+          <label for="state">State* <span class="hindi">राज्य*</span></label>
+          <select id="state" required>
+            <option value="">Select Registration State <span class="hindi">पंजीकरण राज्य चुनें</span></option>
+            <option value="33">Andaman And Nicobar Islands</option>
+            <option value="9">Andhra Pradesh</option>
+            <option value="20">Arunachal Pradesh</option>
+            <option value="12">Assam</option>
+            <option value="1">Bihar</option>
+            <option value="2">Chandigarh</option>
+            <option value="4">Chhattisgarh</option>
+            <option value="36">Dadra and Nagar Haveli and Daman and Diu</option>
+            <option value="37">Delhi</option>
+            <option value="7">Goa</option>
+            <option value="15">Gujarat</option>
+            <option value="8">Haryana</option>
+            <option value="3">Himachal Pradesh</option>
+            <option value="10">Jammu and Kashmir</option>
+            <option value="11">Jharkhand</option>
+            <option value="18">Karnataka</option>
+            <option value="13">Kerala</option>
+            <option value="14">Ladakh</option>
+            <option value="15">Lakshadweep</option>
+            <option value="5">Madhya Pradesh</option>
+            <option value="16">Maharashtra</option>
+            <option value="17">Manipur</option>
+            <option value="19">Meghalaya</option>
+            <option value="21">Mizoram</option>
+            <option value="22">Meghalaya</option>
+            <option value="23">Nagaland</option>
+            <option value="25">Orissa</option>
+            <option value="24">Puducherry</option>
+            <option value="26">Punjab</option>
+            <option value="27">Rajasthan</option>
+            <option value="28">Sikkim</option>
+            <option value="29">Tamil Nadu</option>
+            <option value="30">Telangana</option>
+            <option value="34">Tripura</option>
+            <option value="31">Uttar Pradesh</option>
+            <option value="6">Uttarakhand</option>
+            <option value="32">West Bengal</option>
+          </select>
+        </div>
+
+<div class="form-group">
+  <label for="regno">Wheeler Reg No* <span class="hindi">वाहन पंजीकरण संख्या*</span></label>
+  <input type="text" id="regno" placeholder="DL01AB1234" required />
+</div>
+
+        <div class="form-group">
+          <label for="chassis">Chassis No.* <span class="hindi">चेसिस संख्या*</span></label>
+          <input type="text" id="chassis" maxlength="5" minlength="5" placeholder="Enter last 5 digits" required />
+          <small>(Kindly enter last 5 digits including special characters eg *-/./.)
+            <span class="hindi">(कृपया अंतिम 5 अंक विशेष चिन्ह सहित दर्ज करें जैसे *-/./.)</span></small>
+        </div>
+
+        <div class="form-group">
+          <label for="engine">Engine No.* <span class="hindi">इंजन संख्या*</span></label>
+          <input type="text" id="engine" maxlength="5" minlength="5" placeholder="Enter last 5 digits" required />
+          <small>(Kindly enter last 5 digits)
+            <span class="hindi">(कृपया अंतिम 5 अंक दर्ज करें)</span></small>
+        </div>
+
+        <button type="submit">Next <span class="hindi">आगे बढ़ें</span></button>
+      </form>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home <span class="hindi">होम</span></a>
+      <a href="regi.html">Track Your Order <span class="hindi">अपना ऑर्डर ट्रैक करें</span></a>
+      <a href="contact.html">Contact us <span class="hindi">संपर्क करें</span></a>
+      <a href="privacy.html">Privacy Policy <span class="hindi">गोपनीयता नीति</span></a>
+    </div>
+    <p class="notice">Booking Open for all states <span class="hindi">सभी राज्यों के लिए बुकिंग खुली है</span>
+      <strong>Book Your High-Security Number Plates (HSRP)</strong>
+      <span class="hindi">अपना हाई सिक्योरिटी नंबर प्लेट (HSRP) बुक करें</span> - HSRP Booking Now Open
+      <span class="hindi">HSRP बुकिंग अब शुरू</span></p>
+    <p>&copy; 2024 HSRP</p>
+  </footer>
+
+  <script>
+    document.getElementById("regiForm").addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent actual form submission
+      window.location.href = "personal.html"; // Redirect to personal page
+    });
+  </script>
+
+</body>
+
+</html>
